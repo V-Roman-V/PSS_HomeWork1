@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -6,30 +7,18 @@
 #include <algorithm>
 using namespace std;
 
-// есть набор предложений они лежат в двумерном массиве (слов)
-// есть структура хранящая локации для каждого слова встретившегося в массиве
+using WordLocation = vector<pair<unsigned int,unsigned int> >; // sentence + number_in_the_sentence
 
-class WordLoc{
-public:
-    vector<pair<unsigned int,unsigned int> > location; // sentence + number_in_the_sentence
-};
-
-inline void toUpper(const string& wordIn, string& wordOut){
-    transform(wordIn.begin(), wordIn.end(),wordOut.begin(), ::toupper);
+inline void toUpper(string& word){
+    transform(word.begin(), word.end(),word.begin(), ::toupper);
 }
 
-inline void toLower(const string& wordIn, string& wordOut){
-    transform(wordIn.begin(), wordIn.end(),wordOut.begin(), ::tolower);
+inline void toLower(string& word){
+    transform(word.begin(), word.end(),word.begin(), ::tolower);
 }
 
-int main()
-{
-    vector< vector<string> > text(1);
-    unordered_map<string, WordLoc> dictionary;
-    ifstream file("in.txt");//C:/Works/PSS_HomeWork/PSS_HomeWork1/in.txt");
-    ofstream out("out.txt");//C:/Works/PSS_HomeWork/PSS_HomeWork1/out.txt");
-    string text_in;
-    getline(file, text_in);
+void splitSentences(vector< vector<string> >& text, unordered_map<string, WordLocation>& dictionary,const string& text_in){
+    text.resize(1);
     stringstream in(text_in);
     string wordInText;
     unsigned int countS = 0;
@@ -43,43 +32,72 @@ int main()
         }
         text[countS].push_back(wordInText);
 
-        toLower(wordInText,wordInText);
+        toLower(wordInText);
         //adds its location to the word in the dictionary
-        dictionary.emplace(wordInText,WordLoc()).first->second.location.push_back(make_pair(countS,countW));
+        dictionary.emplace(wordInText,WordLocation() ).first->second.push_back(make_pair(countS,countW));
 
         countS += newSent;
         countW  = newSent?0:(countW+1);
     }
+    text.pop_back();
+}
+
+void findWord(ofstream& out, const vector< vector<string> >& text,const unordered_map<string, WordLocation>& dictionary,string wordToFind){
+    toLower(wordToFind);
+    auto iter = dictionary.find(wordToFind);
+    if(iter == dictionary.end()){
+        out<<0<<endl<<wordToFind<<": There is no such word in the text"<<endl;
+        return;
+    }
+
+    const auto& location = iter->second; // vector< pair< uint, uint > >
+    auto locIt = location.begin();// iterator to the beginning of the location array
+
+    out<<location.size()<<endl;
+    for(unsigned int i=0; i<text.size() ;i++){
+        if(locIt==location.end())break;
+        if(i < locIt->first)continue;
+        for(unsigned int j=0;j<text[i].size();j++){
+            string word = text[i][j];
+            if(locIt!=location.end() && i == locIt->first && j == locIt->second){
+                locIt++;
+                toUpper(word);
+            }
+            out<<word<<((j+1<text[i].size())?" ":"");
+        }
+        out<<". ";
+    }
+    out<<endl;
+}
+
+int main()
+{
+    vector< vector<string> > text;
+    unordered_map<string, WordLocation> dictionary;
+
+    ifstream file("in.txt");
+    if(file.is_open())
+        cout<<"opened in.txt file"<<endl;
+    else
+        cout<<"output file doesn't open"<<endl;
+
+    ofstream out("out.txt");
+    if(file.is_open())
+        cout<<"opened out.txt file"<<endl;
+    else
+        cout<<"output file doesn't open"<<endl;
+
+    string text_in;
+    getline(file, text_in);
+
+    splitSentences(text,dictionary, text_in);
 
     int cWords;
     file >> cWords; // this action is only needed to remove the number at the beginning
+
     string wordToFind;
-    while(file >> wordToFind){
-        toLower(wordToFind, wordToFind);
-        auto iter = dictionary.find(wordToFind);
-        if(iter == dictionary.end()){
-            out<<0<<endl<<wordToFind<<": There is no such word in the text"<<endl;
-            continue;
-        }
+    while(file >> wordToFind)
+        findWord(out,text,dictionary,wordToFind);
 
-        const auto& location = iter->second.location; // vector< pair< uint, uint > >
-        auto locIt = location.begin();// iterator to the beginning of the location array
-
-        out<<location.size()<<endl;
-        for(unsigned int i=0; i<text.size() ;i++){
-            if(locIt==location.end())break;
-            if(i < locIt->first)continue;
-            for(unsigned int j=0;j<text[i].size();j++){
-                string word = text[i][j];
-                if(locIt!=location.end() && i == locIt->first && j == locIt->second){
-                    locIt++;
-                    toUpper(word, word);
-                }
-                out<<word<<((j+1<text[i].size())?" ":"");
-            }
-            out<<". ";
-        }
-        out<<endl;
-    }
     return 0;
 }

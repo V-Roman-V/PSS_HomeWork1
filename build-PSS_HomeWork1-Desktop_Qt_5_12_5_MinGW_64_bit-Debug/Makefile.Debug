@@ -50,8 +50,7 @@ OBJECTS_DIR   = debug
 SOURCES       = ..\PSS_HomeWork1\main.cpp 
 OBJECTS       = debug/main.o
 
-DIST          = in.txt \
-		out.txt  ..\PSS_HomeWork1\main.cpp
+DIST          =   ..\PSS_HomeWork1\main.cpp
 QMAKE_TARGET  = PSS_HomeWork1
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = PSS_HomeWork1.exe

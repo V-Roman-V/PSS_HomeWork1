@@ -50,8 +50,7 @@ OBJECTS_DIR   = release
 SOURCES       = ..\PSS_HomeWork1\main.cpp 
 OBJECTS       = release/main.o
 
-DIST          = in.txt \
-		out.txt  ..\PSS_HomeWork1\main.cpp
+DIST          =   ..\PSS_HomeWork1\main.cpp
 QMAKE_TARGET  = PSS_HomeWork1
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = PSS_HomeWork1.exe

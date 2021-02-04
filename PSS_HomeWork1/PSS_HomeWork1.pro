@@ -5,7 +5,3 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp
-
-DISTFILES += \
-    in.txt \
-    out.txt
