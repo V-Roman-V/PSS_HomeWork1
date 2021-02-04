@@ -17,6 +17,15 @@ inline void toLower(string& word){
     transform(word.begin(), word.end(),word.begin(), ::tolower);
 }
 
+string onlyLetters(const string& word){
+    string out;
+    for(auto c: word)
+        if( ('a'<=c && c<='z') || ('A'<=c && c<='Z') || ('0'<=c && c<='9') )
+            out+=c;
+    return out;
+}
+
+
 void splitSentences(vector< vector<string> >& text, unordered_map<string, WordLocation>& dictionary,const string& text_in){
     text.resize(1);
     stringstream in(text_in);
@@ -26,12 +35,12 @@ void splitSentences(vector< vector<string> >& text, unordered_map<string, WordLo
     while( in >> wordInText){
         bool newSent = false;
         if(wordInText.back() == '.'){
-            wordInText.pop_back();
             newSent = true;
             text.push_back(vector<string>());
         }
         text[countS].push_back(wordInText);
 
+        wordInText = onlyLetters(wordInText);
         toLower(wordInText);
         //adds its location to the word in the dictionary
         dictionary.emplace(wordInText,WordLocation() ).first->second.push_back(make_pair(countS,countW));
@@ -43,6 +52,7 @@ void splitSentences(vector< vector<string> >& text, unordered_map<string, WordLo
 }
 
 void findWord(ofstream& out, const vector< vector<string> >& text,const unordered_map<string, WordLocation>& dictionary,string wordToFind){
+    wordToFind = onlyLetters(wordToFind);
     toLower(wordToFind);
     auto iter = dictionary.find(wordToFind);
     if(iter == dictionary.end()){
@@ -63,9 +73,8 @@ void findWord(ofstream& out, const vector< vector<string> >& text,const unordere
                 locIt++;
                 toUpper(word);
             }
-            out<<word<<((j+1<text[i].size())?" ":"");
+            out<<word<<" ";
         }
-        out<<". ";
     }
     out<<endl;
 }
