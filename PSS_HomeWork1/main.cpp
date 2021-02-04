@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -27,8 +26,8 @@ int main()
 {
     vector< vector<string> > text(1);
     unordered_map<string, WordLoc> dictionary;
-    ifstream file;
-    file.open("C:/Works/PSS_HomeWork/PSS_HomeWork1/in.txt");
+    ifstream file("in.txt");//C:/Works/PSS_HomeWork/PSS_HomeWork1/in.txt");
+    ofstream out("out.txt");//C:/Works/PSS_HomeWork/PSS_HomeWork1/out.txt");
     string text_in;
     getline(file, text_in);
     stringstream in(text_in);
@@ -45,7 +44,7 @@ int main()
         text[countS].push_back(wordInText);
 
         toLower(wordInText,wordInText);
-        //adds its location to the word
+        //adds its location to the word in the dictionary
         dictionary.emplace(wordInText,WordLoc()).first->second.location.push_back(make_pair(countS,countW));
 
         countS += newSent;
@@ -59,14 +58,14 @@ int main()
         toLower(wordToFind, wordToFind);
         auto iter = dictionary.find(wordToFind);
         if(iter == dictionary.end()){
-            cout<<0<<endl<<wordToFind<<": There is no such word in the text"<<endl;
+            out<<0<<endl<<wordToFind<<": There is no such word in the text"<<endl;
             continue;
         }
 
         const auto& location = iter->second.location; // vector< pair< uint, uint > >
         auto locIt = location.begin();// iterator to the beginning of the location array
 
-        cout<<location.size()<<endl;
+        out<<location.size()<<endl;
         for(unsigned int i=0; i<text.size() ;i++){
             if(locIt==location.end())break;
             if(i < locIt->first)continue;
@@ -76,11 +75,11 @@ int main()
                     locIt++;
                     toUpper(word, word);
                 }
-                cout<<word<<((j+1<text[i].size())?" ":"");
+                out<<word<<((j+1<text[i].size())?" ":"");
             }
-            cout<<". ";
+            out<<". ";
         }
-        cout<<endl;
+        out<<endl;
     }
     return 0;
 }
