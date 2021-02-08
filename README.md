@@ -13,7 +13,7 @@ A program that reads the text from the file then splits the input text into sent
  Qt Creator was used as the IDE for this project. If you have it, you will be able to open this project through it.
 
 ### Where the source code is located
-  main.cpp is located in the directory:
+  main.cpp and other classes are located in the directory:
  > PSS_HomeWork1 
  
 ### How to execute the code
