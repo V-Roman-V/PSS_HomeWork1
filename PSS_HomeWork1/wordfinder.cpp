@@ -19,8 +19,8 @@ void WordFinder::addText(const std::string &text_in)
         }
         text[countS].push_back(wordInText);
 
-        wordInText = onlyLetters(wordInText);
-        toLower(wordInText);
+        wordInText = doProperWord(wordInText);
+
         //adds its location to the word in the dictionary
         dictionary.emplace(wordInText,WordLocation() ).first->second.push_back(std::make_pair(countS,countW));
 
@@ -32,18 +32,19 @@ void WordFinder::addText(const std::string &text_in)
 
 void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
 {
-    wordToFind = onlyLetters(wordToFind);
-    toLower(wordToFind);
+    wordToFind = doProperWord(wordToFind);
+
     auto iter = dictionary.find(wordToFind);
     if(iter == dictionary.end()){
-        out<<0<<std::endl<<wordToFind<<": There is no such word in the text"<<std::endl;
+        out<<"the word \""<<wordToFind<<"\" never appears in the text"<<std::endl;
         return;
     }
 
     const auto& location = iter->second; // vector< pair< uint, uint > >
     auto locIt = location.begin();// iterator to the beginning of the location array
 
-    out<<location.size()<<std::endl;
+    out<<"word \""<<wordToFind<<"\" was found "<<location.size()<<" times:"<<std::endl<<"\t";
+
     for(unsigned int i=0; i<text.size() ;i++){
         if(locIt==location.end())break;
         if(i != locIt->first)continue;
@@ -56,7 +57,15 @@ void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
             out<<word<<" ";
         }
     }
-    out<<std::endl;
+    out<<"\n\n";
+}
+
+std::string WordFinder::doProperWord(const std::string &word)
+{
+    std::string pWord = onlyLetters(word);
+    toLower(pWord);
+    removeS(pWord);
+    return pWord;
 }
 
 void WordFinder::toUpper(std::string &word)
@@ -67,6 +76,12 @@ void WordFinder::toUpper(std::string &word)
 void WordFinder::toLower(std::string &word)
 {
     transform(word.begin(), word.end(),word.begin(), ::tolower);
+}
+
+void WordFinder::removeS(std::string &word)
+{
+    if(word.back() == 's')
+        word.pop_back();
 }
 
 std::string WordFinder::onlyLetters(const std::string &word)

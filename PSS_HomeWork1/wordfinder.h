@@ -21,8 +21,10 @@ private:
     std::vector< std::vector<std::string> > text;
     std::unordered_map<std::string, WordLocation> dictionary;
 
+    std::string doProperWord(const std::string& word);
     void toUpper(std::string& word);
     void toLower(std::string& word);
+    void removeS(std::string& word);
     std::string onlyLetters(const std::string& word);
 };
 
