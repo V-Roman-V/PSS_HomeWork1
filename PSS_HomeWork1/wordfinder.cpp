@@ -23,7 +23,7 @@ void WordFinder::addText(const std::string &text_in)
         dictionary[doProperWord(wordInText)].push_back(std::make_pair(countS,countW));
 
         countS += newSent;
-        countW  = newSent?0:(countW+1);
+        countW  = !newSent*(countW+1);
     }
     text.pop_back();
 }
@@ -32,7 +32,7 @@ void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
 {
     auto iter = dictionary.find(doProperWord(wordToFind));
     if(iter == dictionary.end()){
-        out<<"the word \""<<wordToFind<<"\" never appears in the text\n\n";
+        out<<"word \""<<wordToFind<<"\" never appears in the text\n\n";
         return;
     }
 
