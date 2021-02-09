@@ -37,16 +37,13 @@ void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
     }
 
     const auto& location = iter->second; // vector< pair< uint, uint > >
-    auto locIt = location.begin();// iterator to the beginning of the location array
-
     out<<"word \""<<wordToFind<<"\" was found "<<location.size()<<" times:"<<std::endl<<"\t";
 
-    for(unsigned int i=0; i<text.size() ;i++){
-        if(locIt==location.end())break;
-        if(i != locIt->first)continue;
-        for(unsigned int j=0;j<text[i].size();j++){
-            std::string word = text[i][j];
-            if(locIt!=location.end() && i == locIt->first && j == locIt->second){
+    for(auto locIt = location.begin();locIt!=location.end();){
+        unsigned int sentence = locIt->first;
+        for(unsigned int j=0;j<text[sentence].size();j++){
+            std::string word = text[sentence][j];
+            if(locIt!=location.end() && sentence == locIt->first && j == locIt->second){
                 locIt++;
                 toUpper(word);
             }
