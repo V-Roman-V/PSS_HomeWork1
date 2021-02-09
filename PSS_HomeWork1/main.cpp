@@ -21,7 +21,7 @@ int main()
     int cWords;
     file >> cWords;
     string wordToFind;
-    while(static_cast<void>(file >> wordToFind), cWords--)
+    while((file >> wordToFind) && cWords--)
         wf.findWord(out,wordToFind);
 
     file.close();
