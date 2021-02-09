@@ -19,10 +19,8 @@ void WordFinder::addText(const std::string &text_in)
         }
         text[countS].push_back(wordInText);
 
-        wordInText = doProperWord(wordInText);
-
         //adds its location to the word in the dictionary
-        dictionary.emplace(wordInText,WordLocation() ).first->second.push_back(std::make_pair(countS,countW));
+        dictionary[doProperWord(wordInText)].push_back(std::make_pair(countS,countW));
 
         countS += newSent;
         countW  = newSent?0:(countW+1);
@@ -32,11 +30,9 @@ void WordFinder::addText(const std::string &text_in)
 
 void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
 {
-    wordToFind = doProperWord(wordToFind);
-
-    auto iter = dictionary.find(wordToFind);
+    auto iter = dictionary.find(doProperWord(wordToFind));
     if(iter == dictionary.end()){
-        out<<"the word \""<<wordToFind<<"\" never appears in the text"<<std::endl;
+        out<<"the word \""<<wordToFind<<"\" never appears in the text\n\n";
         return;
     }
 
