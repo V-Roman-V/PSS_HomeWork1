@@ -13,10 +13,10 @@ int main()
     ofstream out("out.txt");
     cout<<(out.is_open()?"opened out.txt file":"output file doesn't open")<<endl;
 
-    string text_in;
-    getline(file, text_in);
+    string textIn;
+    getline(file, textIn);
 
-    wf.addText(text_in);
+    wf.addText(textIn);
 
     int cWords;
     file >> cWords;

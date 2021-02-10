@@ -13,7 +13,7 @@ class WordFinder
 {
 public:
     WordFinder();
-    void addText(const std::string& in_text);
+    void addText(const std::string& textIn);
     std::string findWord(const std::string& wordToFind);
 
 private:

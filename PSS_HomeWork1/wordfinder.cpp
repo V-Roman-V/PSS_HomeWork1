@@ -5,25 +5,18 @@ WordFinder::WordFinder()
     text.resize(1);
 }
 
-void WordFinder::addText(const std::string &text_in)
+void WordFinder::addText(const std::string &textIn)
 {
-    std::stringstream in(text_in);
+    std::stringstream in(textIn);
     std::string wordInText;
-    unsigned int countS = 0;
-    unsigned int countW = 0;
     while( in >> wordInText){
-        bool newSent = false;
-        if(isEnd(wordInText.back())){
-            newSent = true;
-            text.push_back(std::vector<std::string>());
-        }
-        text[countS].push_back(wordInText);
+        text.back().push_back(wordInText);
 
         //adds its location to the word in the dictionary
-        dictionary[doProperWord(wordInText)].push_back(std::make_pair(countS,countW));
+        dictionary[doProperWord(wordInText)].emplace_back(text.size()-1,text.back().size()-1);
 
-        countS += newSent;
-        countW  = !newSent*(countW+1);
+        if(isEnd(wordInText.back()))
+            text.push_back(std::vector<std::string>());
     }
     text.pop_back();
 }
