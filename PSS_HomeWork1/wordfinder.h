@@ -1,7 +1,6 @@
 #ifndef WORDFINDER_H
 #define WORDFINDER_H
 #include <sstream>
-#include <fstream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -15,7 +14,7 @@ class WordFinder
 public:
     WordFinder();
     void addText(const std::string& in_text);
-    void findWord(std::ofstream& out,std::string wordToFind);
+    std::string findWord(const std::string& wordToFind);
 
 private:
     std::vector< std::vector<std::string> > text;

@@ -28,12 +28,13 @@ void WordFinder::addText(const std::string &text_in)
     text.pop_back();
 }
 
-void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
+std::string WordFinder::findWord(const std::string& wordToFind)
 {
+    std::stringstream out;
     auto iter = dictionary.find(doProperWord(wordToFind));
     if(iter == dictionary.end()){
         out<<"word \""<<wordToFind<<"\" never appears in the text\n\n";
-        return;
+        return out.str();
     }
 
     const auto& location = iter->second; // vector< pair< uint, uint > >
@@ -51,6 +52,7 @@ void WordFinder::findWord(std::ofstream &out, std::string wordToFind)
         }
     }
     out<<"\n\n";
+    return out.str();
 }
 
 std::string WordFinder::doProperWord(const std::string &word)

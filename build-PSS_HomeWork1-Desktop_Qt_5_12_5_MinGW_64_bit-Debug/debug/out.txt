@@ -4,10 +4,11 @@ word "dummy" was found 2 times:
 word "release" was found 1 times:
 	It was popularised in the 1960s with the RELEASE of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. 
 
-word "ipsum" was found 4 times:
+word "Ipsum" was found 4 times:
 	Lorem IPSUM is simply a dummy text of the printing and typesetting industry. Lorem IPSUM has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It was popularised in the 1960s with the release of Letraset sheets containing Lorem IPSUM passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IPSUM. 
 
-the word "hello" never appears in the text
+word "Hello" never appears in the text
+
 word "lorem" was found 4 times:
 	LOREM Ipsum is simply a dummy text of the printing and typesetting industry. LOREM Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It was popularised in the 1960s with the release of Letraset sheets containing LOREM Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of LOREM Ipsum. 
 

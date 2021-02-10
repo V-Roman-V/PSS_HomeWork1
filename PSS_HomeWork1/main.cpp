@@ -22,7 +22,7 @@ int main()
     file >> cWords;
     string wordToFind;
     while((file >> wordToFind) && cWords--)
-        wf.findWord(out,wordToFind);
+        out << wf.findWord(wordToFind);
 
     file.close();
     out.close();
