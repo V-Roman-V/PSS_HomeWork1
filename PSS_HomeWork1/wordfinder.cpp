@@ -13,7 +13,7 @@ void WordFinder::addText(const std::string &text_in)
     unsigned int countW = 0;
     while( in >> wordInText){
         bool newSent = false;
-        if(wordInText.back() == '.'){
+        if(isEnd(wordInText.back())){
             newSent = true;
             text.push_back(std::vector<std::string>());
         }
@@ -53,6 +53,11 @@ std::string WordFinder::findWord(const std::string& wordToFind)
     }
     out<<"\n\n";
     return out.str();
+}
+
+bool WordFinder::isEnd(char c)
+{
+    return (c=='.' || c=='!' || c=='?');
 }
 
 std::string WordFinder::doProperWord(const std::string &word)

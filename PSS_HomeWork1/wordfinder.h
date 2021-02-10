@@ -20,6 +20,8 @@ private:
     std::vector< std::vector<std::string> > text;
     std::unordered_map<std::string, WordLocation> dictionary;
 
+    inline bool isEnd(char c);
+
     std::string doProperWord(const std::string& word);
     void toUpper(std::string& word);
     void toLower(std::string& word);
